@@ -23,15 +23,15 @@ const viewOptions = [
   "Exit",
 ];
 
-const employeeOptions = [
-  "Bob Ross",
-  "Donald Duck",
-  "Will Smith",
-  "Kevin Ross",
-  "Bobby Shmoney",
-];
 
-const updateOptions = ["First Name", "Last Name", "Role", "Cancel (Back To Main Menu)"];
+
+const updateOptions = connection.query("SELECT first_name FROM employee");
+// [
+//   "First Name",
+//   "Last Name",
+//   "Role",
+//   "Cancel (Back To Main Menu)",
+// ];
 
 runSearch();
 
@@ -117,7 +117,7 @@ const updateEmployee = () => {
         name: "update",
         type: "list",
         message: "Which employee do you want to update?",
-        choices: employeeOptions,
+        choices: employeeNames(),
         default: true,
       })
       .then(function (answer) {
@@ -130,10 +130,10 @@ const updateEmployee = () => {
               choices: updateOptions,
             })
             .then(function (answer) {
-                console.log(answer)
+              console.log(answer);
               switch (answer.action) {
                 case updateOptions[0]:
-                 updateFirst()
+                  updateFirst();
                   break;
 
                 case updateOptions[1]:
@@ -141,8 +141,8 @@ const updateEmployee = () => {
 
                 case updateOptions[2]:
                   break;
-                  case updateOptions[3]:
-                      runSearch()
+                case updateOptions[3]:
+                  runSearch();
 
                   break;
               }
@@ -195,20 +195,60 @@ function addEmployee() {
 }
 
 function updateFirst() {
-
-inquirer.prompt([
-    {
+  //Prompt to change first name
+  inquirer
+    .prompt([
+      {
         type: "input",
         message: "Update first name",
         name: "updateFirst",
-    }
-])
-.then(function(answer) {
-    let updateFirst = "SELECT first_name";
-    
-    
-    console.log(answer)
-})
+      },
+    ])
+    //Ca
+    .then(function (answer) {
+      let sql = `UPDATE employee
+        SET first_name = first_name
+        `;
+
+      connection.query(sql, answer, (error) => {
+        if (error) {
+          return console.error(error.message);
+        } else {
+          console.log(answer);
+          "INSERT INTO employee SET ?",
+            {
+              first_name: answer.updateFirst,
+            };
+          runSearch();
+        }
+      });
+    });
 
 
 }
+
+function employeeNames() {
+  let sqlStr = "SELECT first_name, last_name FROM employee ";
+  
+let finalArray = []
+  connection.query(sqlStr, function (err, result) {
+    if (err) throw err;
+let array = []
+let res = JSON.parse(JSON.stringify(result));
+
+for(let i = 0; i < result.length; i++){
+  let first = res[i].first_name;
+  let last = res[i].last_name;
+  let name = first + " " + last;
+     array.push(name)
+     
+  }
+   
+   return console.log(array);
+  });
+  console.log("hello" + array)
+}
+
+
+employeeNames()
+
