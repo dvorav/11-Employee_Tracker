@@ -26,12 +26,6 @@ const viewOptions = [
 
 
 const updateOptions = connection.query("SELECT first_name FROM employee");
-// [
-//   "First Name",
-//   "Last Name",
-//   "Role",
-//   "Cancel (Back To Main Menu)",
-// ];
 
 runSearch();
 
@@ -230,7 +224,6 @@ function updateFirst() {
 function employeeNames() {
   let sqlStr = "SELECT first_name, last_name FROM employee ";
   
-let finalArray = []
   connection.query(sqlStr, function (err, result) {
     if (err) throw err;
 let array = []
@@ -246,7 +239,6 @@ for(let i = 0; i < result.length; i++){
    
    return console.log(array);
   });
-  console.log("hello" + array)
 }
 
 
