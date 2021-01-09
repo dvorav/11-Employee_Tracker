@@ -105,13 +105,13 @@ function exit() {
 }
 
 const updateEmployee = () => {
-  function runUpdateSearch() {
+  function runUpdateSearch(answer) {
     inquirer
       .prompt({
         name: "update",
         type: "list",
         message: "Which employee do you want to update?",
-        choices: employeeNames(),
+        choices: array,
         default: true,
       })
       .then(function (answer) {
@@ -230,17 +230,16 @@ let array = []
 let res = JSON.parse(JSON.stringify(result));
 
 for(let i = 0; i < result.length; i++){
-  let first = res[i].first_name;
-  let last = res[i].last_name;
-  let name = first + " " + last;
+  let f = res[i].first_name;
+  let l = res[i].last_name;
+  let name = f +" "+ l;
      array.push(name)
      
   }
-   
-   return console.log(array);
+   return array;
   });
 }
 
 
-employeeNames()
+console.log(employeeNames())
 
