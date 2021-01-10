@@ -111,7 +111,7 @@ const updateEmployee = () => {
         name: "update",
         type: "list",
         message: "Which employee do you want to update?",
-        choices: array,
+        choices: employeeNames(),
         default: true,
       })
       .then(function (answer) {
@@ -178,6 +178,7 @@ function addEmployee() {
         },
         function (err) {
           if (err) {
+            
             throw err;
           }
           console.clear();
@@ -221,25 +222,27 @@ function updateFirst() {
 
 }
 
-function employeeNames() {
+function employeeNames(callback) {
   let sqlStr = "SELECT first_name, last_name FROM employee ";
-  
   connection.query(sqlStr, function (err, result) {
     if (err) throw err;
-let array = []
 let res = JSON.parse(JSON.stringify(result));
-
-for(let i = 0; i < result.length; i++){
+let array = []
+for (let i = 0; i < result.length; i++){
   let f = res[i].first_name;
   let l = res[i].last_name;
   let name = f +" "+ l;
      array.push(name)
-     
+
   }
-   return array;
-  });
+
+  return callback = array
+
+  }
+  )
 }
 
 
-console.log(employeeNames())
+//usage
 
+console.log(employeeNames())
