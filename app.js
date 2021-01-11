@@ -15,11 +15,14 @@ connection.connect(function (err) {
 });
 
 const viewOptions = [
-  "View All Departments",
-  "View All Roles",
-  "View All Employees",
-  "Update An Employee",
-  "Add An Employee",
+  "View all departments",
+  "View all roles",
+  "View all employees",
+  "Add an employee",
+  "Add a deparment",
+  "Add a role",
+  "Update an employee",
+  "Remove an employee",
   "Exit",
 ];
 
@@ -52,14 +55,22 @@ function runSearch() {
           break;
 
         case viewOptions[3]:
-          updateEmployee();
-          break;
-
-        case viewOptions[4]:
           addEmployee();
           break;
 
-        case viewOptions[5]:
+        case viewOptions[4]:
+          addDepartment();
+          break;
+          case viewOptions[5]:
+            addRole();
+            break;
+            case viewOptions[6]:
+              updateEmployee();
+              break;
+              case viewOptions[7]:
+              removeEmployee();
+                break;
+        case viewOptions[8]:
           console.clear();
           console.log("Script Terminated!");
           exit();
@@ -188,6 +199,35 @@ function addEmployee() {
       );
     });
 }
+
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Select department",
+        name: "department",
+      },
+    ])
+    .then(function (answer) {
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          name: answer.department,
+        },
+        function (err) {
+          if (err) {
+            
+            throw err;
+          }
+          console.clear();
+          console.table("Added to Employee List!");
+          runSearch();
+        }
+      );
+    });
+}
+
 
 function updateFirst() {
   //Prompt to change first name
