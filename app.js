@@ -26,8 +26,6 @@ const viewOptions = [
   "Exit",
 ];
 
-
-
 const updateOptions = connection.query("SELECT first_name FROM employee");
 
 runSearch();
@@ -61,15 +59,15 @@ function runSearch() {
         case viewOptions[4]:
           addDepartment();
           break;
-          case viewOptions[5]:
-            addRole();
-            break;
-            case viewOptions[6]:
-              updateEmployee();
-              break;
-              case viewOptions[7]:
-              removeEmployee();
-                break;
+        case viewOptions[5]:
+          addRole();
+          break;
+        case viewOptions[6]:
+          updateEmployee();
+          break;
+        case viewOptions[7]:
+          removeEmployee();
+          break;
         case viewOptions[8]:
           console.clear();
           console.log("Script Terminated!");
@@ -189,11 +187,13 @@ function addEmployee() {
         },
         function (err) {
           if (err) {
-            
             throw err;
           }
           console.clear();
+          console.log("-----------------------");
           console.table("Added to Employee List!");
+          console.log("-----------------------");
+
           runSearch();
         }
       );
@@ -205,7 +205,7 @@ function addDepartment() {
     .prompt([
       {
         type: "input",
-        message: "Select department",
+        message: "Add department",
         name: "department",
       },
     ])
@@ -217,17 +217,62 @@ function addDepartment() {
         },
         function (err) {
           if (err) {
-            
             throw err;
           }
           console.clear();
-          console.table("Added to Employee List!");
+          console.log("-----------------------");
+
+          console.table("Added to department list!");
+          console.log("-----------------------");
+
           runSearch();
         }
       );
     });
 }
 
+function addRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Add role",
+        name: "role",
+      },
+      {
+        type: "input",
+        message: "Add salary",
+        name: "salary",
+      },
+      {
+        type: "input",
+        message: "Department Id",
+        name: "dept",
+      },
+    ])
+    .then(function (answer) {
+      connection.query(
+        "INSERT INTO role SET ?",
+        {
+          title: answer.role,
+          salary: answer.salary,
+          department_id: answer.dept 
+        },
+        function (err) {
+          if (err) {
+            throw err;
+          }
+          console.clear();
+          console.log("-----------------------");
+
+          console.table("Added to Role List!");
+          console.log("-----------------------");
+
+          runSearch();
+        }
+      );
+    });
+}
 
 function updateFirst() {
   //Prompt to change first name
@@ -258,31 +303,27 @@ function updateFirst() {
         }
       });
     });
-
-
 }
 
 function employeeNames(callback) {
   let sqlStr = "SELECT first_name, last_name FROM employee ";
   connection.query(sqlStr, function (err, result) {
     if (err) throw err;
-let res = JSON.parse(JSON.stringify(result));
-let array = []
-for (let i = 0; i < result.length; i++){
-  let f = res[i].first_name;
-  let l = res[i].last_name;
-  let name = f +" "+ l;
-     array.push(name)
+    let res = JSON.parse(JSON.stringify(result));
+    let array = [];
+    for (let i = 0; i < result.length; i++) {
+      let f = res[i].first_name;
+      let l = res[i].last_name;
+      let name = f + " " + l;
+      array.push(name);
+    }
 
-  }
-
-  return callback = array
-
-  }
-  )
+    return (callback = array);
+  });
 }
-
 
 //usage
 
-console.log(employeeNames())
+// console.log(employeeNames());
+
+
