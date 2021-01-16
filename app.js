@@ -79,7 +79,9 @@ function runSearch() {
 
 //View Department List Option
 function departmentView() {
-  let sqlStr = "SELECT * FROM department";
+  console.log("---------------------")
+  console.log("Department List");
+  let sqlStr = "SELECT name FROM department";
   connection.query(sqlStr, function (err, result) {
     if (err) throw err;
 
@@ -90,6 +92,8 @@ function departmentView() {
 
 //View Employee List Option
 function employeeView() {
+  console.log("---------------------")
+  console.log("Employee List");
   let sqlStr = "SELECT first_name, last_name, title, salary FROM employee ";
   sqlStr += "LEFT JOIN role ";
   sqlStr += "ON employee.role_id = role.id";
@@ -104,6 +108,8 @@ function employeeView() {
 
 //View Role List Options
 function roleView() {
+  console.log("---------------------")
+  console.log("Role List");
   let sqlStr = "SELECT * FROM role";
   connection.query(sqlStr, function (err, result) {
     if (err) throw err;
@@ -119,6 +125,8 @@ function exit() {
 
 //Function that will add an employee
 function addEmployee() {
+  console.log("---------------------")
+  console.log("Add Employee");
   inquirer
     .prompt([
       {
@@ -163,6 +171,8 @@ function addEmployee() {
 }
 //Function that will add department
 function addDepartment() {
+  console.log("---------------------")
+  console.log("Add Department");
   inquirer
     .prompt([
       {
@@ -182,7 +192,6 @@ function addDepartment() {
             throw err;
           }
           console.log("-----------------------");
-
           console.log("Added to department list!");
           console.log("-----------------------");
 
@@ -194,6 +203,8 @@ function addDepartment() {
 
 //Function that will add role
 function addRole() {
+  console.log("---------------------")
+  console.log("Add Role");
   inquirer
     .prompt([
       {
@@ -226,7 +237,6 @@ function addRole() {
           }
           console.clear();
           console.log("-----------------------");
-
           console.table("Added to Role List!");
           console.log("-----------------------");
 
