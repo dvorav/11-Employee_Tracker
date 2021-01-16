@@ -2,6 +2,7 @@ let inquirer = require("inquirer");
 
 let mysql = require("mysql");
 
+//Connection to SQL
 let connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -13,7 +14,7 @@ let connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
 });
-
+//Inquierer Options
 const viewOptions = [
   "View all departments",
   "View all roles",
@@ -23,12 +24,14 @@ const viewOptions = [
   "Add a role",
   "Remove an employee",
   "Exit",
+  "Remove department"
 ];
 
-const updateOptions = connection.query("SELECT first_name FROM employee");
-
+//Starts Script
 runSearch();
 
+
+//Function that will give you options
 function runSearch() {
   inquirer
     .prompt({
@@ -69,10 +72,12 @@ function runSearch() {
           console.log("Script Terminated!");
           exit();
           break;
+         
       }
     });
 }
 
+//View Department List Option
 function departmentView() {
   let sqlStr = "SELECT * FROM department";
   connection.query(sqlStr, function (err, result) {
@@ -83,6 +88,7 @@ function departmentView() {
   });
 }
 
+//View Employee List Option
 function employeeView() {
   let sqlStr = "SELECT first_name, last_name, title, salary FROM employee ";
   sqlStr += "LEFT JOIN role ";
@@ -95,6 +101,8 @@ function employeeView() {
   });
 }
 
+
+//View Role List Options
 function roleView() {
   let sqlStr = "SELECT * FROM role";
   connection.query(sqlStr, function (err, result) {
@@ -104,11 +112,12 @@ function roleView() {
     runSearch();
   });
 }
-
+//Function that will end scipt
 function exit() {
   return process.exit(1);
 }
 
+//Function that will add an employee
 function addEmployee() {
   inquirer
     .prompt([
@@ -152,7 +161,7 @@ function addEmployee() {
       );
     });
 }
-
+//Function that will add department
 function addDepartment() {
   inquirer
     .prompt([
@@ -172,10 +181,9 @@ function addDepartment() {
           if (err) {
             throw err;
           }
-          console.clear();
           console.log("-----------------------");
 
-          console.table("Added to department list!");
+          console.log("Added to department list!");
           console.log("-----------------------");
 
           runSearch();
@@ -184,6 +192,7 @@ function addDepartment() {
     });
 }
 
+//Function that will add role
 function addRole() {
   inquirer
     .prompt([
@@ -227,27 +236,7 @@ function addRole() {
     });
 }
 
-// function employeeNames() {
-//   let sqlStr = "SELECT first_name, last_name FROM employee ";
-//   connection.query(sqlStr, function (err, result) {
-//     if (err) throw err;
-//     let res = JSON.parse(JSON.stringify(result));
-//     let array = [];
-//     for (let i = 0; i < result.length; i++) {
-//       let f = res[i].first_name;
-//       let l = res[i].last_name;
-//       let name = f + " " + l;
-//       array.push(name);
-//     }
-
-//     return console.log(array);
-//   });
-// }
-
-// //usage
-
-// employeeNames()
-
+//Function that will remove employee
 function removeEmployee() {
   console.log("---------------------")
   console.log("Remove an employee");
@@ -255,7 +244,7 @@ function removeEmployee() {
   let employee = [];
   connection.query(
     `SELECT employee.first_name, employee.id FROM employee`,
-    function (err, res) {
+    (err, res) => {
       if (err) throw err;
       for (let i = 0; i < res.length; i++) {
         employee.push(res[i].first_name);
@@ -269,7 +258,7 @@ function removeEmployee() {
             choices: employee,
           },
         ])
-        .then(function (answer) {
+        .then( (answer) => {
           let selectEmployee = res.find(function (selectedEmployee) {
             if (answer.employee == selectedEmployee.first_name) {
               return selectedEmployee;
@@ -278,10 +267,12 @@ function removeEmployee() {
           connection.query(
             "DELETE FROM employee WHERE id = ?",
             selectEmployee.id,
-            function (err, res) {
+           (err) => {
               if (err) throw err;
-
+              console.log("---------------------")
               console.log("Employee Removed!");
+              console.log("---------------------")
+
               runSearch();
             }
           );
@@ -289,3 +280,4 @@ function removeEmployee() {
     }
   );
 }
+
