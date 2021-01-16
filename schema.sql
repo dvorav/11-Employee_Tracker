@@ -1,4 +1,6 @@
-DROP DATABASE IF EXISTS Employee_TrackerDB;
+=-
+
+\DROP DATABASE IF EXISTS Employee_TrackerDB;
 
 CREATE DATABASE Employee_TrackerDB;
 
@@ -10,7 +12,7 @@ name varchar(30) not null,
 primary key(id)
 );
 
-CREATE TABLE role(
+CREATE TABLE role
 id integer auto_increment not null,
 title varchar(30) not null,
 salary decimal not null,
