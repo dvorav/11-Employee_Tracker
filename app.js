@@ -14,6 +14,7 @@ let connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
 });
+
 //Inquierer Options
 const viewOptions = [
   "View all departments",
@@ -24,7 +25,6 @@ const viewOptions = [
   "Add a role",
   "Remove an employee",
   "Exit",
-  "Remove department"
 ];
 
 //Starts Script
