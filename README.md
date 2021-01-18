@@ -10,15 +10,18 @@
 6. [Questions](#Questions)
 
 ## Description
+
+![menu](assets/menu.PNG)
+
 Track employee list, departments, and roles     
 ## Installation
-Install node.js, mysql
+Install node.js, mysql, and inquierer
 ## Usage
 To track an employee's name, salary, department, or role
 ## Contributing
 Myself
 ## Test
-N/A
+When testing/using this script, type "node app.js" into the terminal. You will then be prompt with a menu with a list of options.
 ## License
 MIT
 ## Questions
